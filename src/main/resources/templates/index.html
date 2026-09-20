@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jogo de Cartas</title>
+  <style>
+    body {
+      background-color: #083908;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #023002;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px #000000;
+      width: 350px;
+      text-align: center; /* Centraliza conteúdo da container */
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    img.logo {
+      max-width: 300px;
+      margin-bottom: -5px;
+      user-select: none;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-align: left;
+    }
+    .players-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .players-inputs input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #b30000;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      box-shadow: 0 0 20px #b30000;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #d40000;
+    }
+    #add-player {
+      width: auto;
+      padding: 8px 15px;
+      font-weight: 600;
+      font-size: 18px;
+      background-color: #006600;
+      box-shadow: 0 0 10px #004400;
+      margin: 0 auto 20px;
+      cursor: pointer;
+    }
+    #add-player:hover {
+      background-color: #009900;
+    }
+    .error {
+      background-color: #330000;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      color: #ffcc00;
+      font-weight: 700;
+    }
+    @media (max-width: 480px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  img.logo {
+    max-width: 80%;
+  }
+
+  .players-inputs input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  #add-player {
+    font-size: 16px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo adicionada -->
+    <img src="/logoJogoDeCartas.png" alt="Logo Jogo de Cartas" class="logo" />
+    <h1>Criar novo jogo</h1>
+
+    <form action="/create" method="post" id="game-form">
+      <label>Jogadores (mínimo 2):</label>
+      <div class="players-inputs" id="players-inputs">
+        <input type="text" name="players" placeholder="Nome do jogador 1" required />
+        <input type="text" name="players" placeholder="Nome do jogador 2" required />
+      </div>
+      <button type="button" id="add-player">+ Adicionar jogador</button>
+      <button type="submit">Criar</button>
+    </form>
+
+    <div th:if="${param.error}" class="error">
+      Partida não encontrada.
+    </div>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById('add-player');
+    const playersContainer = document.getElementById('players-inputs');
+
+    addBtn.addEventListener('click', () => {
+      const count = playersContainer.querySelectorAll('input').length + 1;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'players';
+      input.placeholder = `Nome do jogador ${count}`;
+      input.required = true;
+      playersContainer.appendChild(input);
+    });
+  </script>
+</body>
+</html>
